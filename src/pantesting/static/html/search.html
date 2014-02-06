@@ -1,0 +1,16 @@
+<input type="text" class="form-control" placeholder="Search" ng-model="search"/>
+
+<table class="table table-striped">
+    <tr>
+        <th>Host</th>
+        <th>Company</th>
+        <th>Bounties</th>
+        <th>Time Left</th>
+    </tr>
+    <tr ng-click="openHost(host)" ng-repeat="host in hosts|filter:search">
+        <td><a href="#/host/{{host.name}}">{{host.name}}</a></td>
+        <td>{{host.company}}</td>
+        <td></td>
+        <td>{{host.time_left}}</td>
+    </tr>
+</table>
