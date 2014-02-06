@@ -1,4 +1,6 @@
-from flask import Flask, jsonify
+import hashlib
+import json
+from flask import Flask, jsonify, abort, request
 from flask.ext.login import LoginManager, login_user, current_user, make_secure_token, logout_user
 
 from pantesting.db.orm import Host, User
@@ -21,11 +23,21 @@ def get_hosts(host_id):
     if host_id == 'all':
         return jsonify({'all': [host.to_dict() for host in hosts]})
 
-@app.route('/login')
+@app.route('/login', methods=["POST"])
 def login():
     # Checks password with the DB.
-    login_user(User(name='newt', company_name='mycomp'), remember=True)
-    return 'OK'
+    user_data = json.loads(request.data)
+    users = api.get_users(name=user_data['name'], password=hashlib.md5(user_data['password']))
+    if users:
+        login_user(users[0], remember=True)
+        return 'OK'
+    else:
+        abort(401)
+
+@app.route('/register', methods=["POST"])
+def register():
+    user_data = json.loads(request.data)
+
 
 @app.route('/logout')
 def logout():
@@ -41,7 +53,10 @@ def get_current_user():
 @login_manager.user_loader
 def load_user(userid):
     # Should fetch from the DB
-    return User(name='newt', company_name='PayPal Inc.')
+    users = api.get_users(uid=userid)
+    if users:
+        return users[0]
+
 
 if __name__ == '__main__':
     app.run(debug=True)
