@@ -8,8 +8,22 @@
             Funds spent: 1$
         </div>
     </div>
+
+    <div>
+        <h2><i class="fa fa-globe"></i> Hosts</h2>
+        <span ng-repeat="host in hosts">{{host.name}}</span>
+        <button class="btn btn-warning" data-toggle="modal" data-target="#newHostModal"><i class="fa fa-plus"></i> Add Host</button>
+    </div>
+
+    <div>
+        <h2><i class="fa fa-users"></i> My Company</h2>
+        <div class="panel panel-info">
+        <div class="panel-footer">
+            <p> No other users in your company, perhaps <a href="">invite</a> some?</p>
+        </div>
+    </div>
+    </div>
 </div>
 
-<div>
-    <span ng-repeat="host in hosts">{{host.name}}</span>
-</div>
+<div ng-include="'/static/html/new-host-modal.html'"/>
+
