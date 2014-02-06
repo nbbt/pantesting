@@ -79,6 +79,9 @@ def test_nested_class():
 
 
 def test_twice_nested_class():
+    """
+    Check that when classes reference one another to_dict only goes through one stage of dependency.
+    """
     simple_class = SimpleClass(id=1, name="foo")
     nested_class = NestedClass(id=2, status="active", simple_class=simple_class)
     twice_nested_class = TwiceNestedClass(param1="param1", nested_class=nested_class)

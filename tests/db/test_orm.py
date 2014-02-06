@@ -48,4 +48,16 @@ def test_orm():
     assert exploit_from_db.id == user.id
 
 
+def test_add_host():
+    session = connect()
+    user = User(name="Mat", password="123", company_name="PayPal", uid="123")
+    url = "http://www.google.com"
+    user.add_host("host_name", "bla bla", "http://www.google.com")
+    session.add(user)
+    session.commit()
+    host = session.query(Host).first()
+    assert host.user_id == user.id
+    assert host.url == host.url
+
+
 

@@ -93,7 +93,7 @@ class Bounty(Base, Dictable):
         self.exploits.append(Exploit(bounty_id=self.id,status=Exploit.OPEN, user_id=user_id, description=description))
 
 
-class Exploit(Base, Dictable):
+class Exploit(Base):
     __tablename__ = "exploits"
 
     #Statussesh
