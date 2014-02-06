@@ -6,6 +6,9 @@ angular.module('pantestingApp').controller('PanTestingController',
       */
       $scope.hosts = Host.query();
 
+      $scope.refreshHosts = function() {
+          $scope.hosts = Host.query();
+      }
       $scope.getHost = function(hostId) {
             if (hostId == null) {
                 return;
@@ -16,11 +19,13 @@ angular.module('pantestingApp').controller('PanTestingController',
                 }
             }
       }
-      $scope.newHost = function(hostName, hostDescription, bounties, url) {
+      $scope.newHost = function(hostName, hostDescription, bounties, hostUrl) {
+          console.log('d' + hostUrl);
            $http.post('/new_host', JSON.stringify({"hostName": hostName, "description": hostDescription, "bounties": bounties,
-                                                    "userId": $rootScope.currentUser.id, url: url}))
+                                                    "userId": $rootScope.currentUser.id, url: hostUrl}))
                 .success(function(data) {
                    alert('New host created');
+                   $scope.refreshHosts();
                });
       }
       $scope.removeHost = function(hostId) {
