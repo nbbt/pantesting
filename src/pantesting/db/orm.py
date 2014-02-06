@@ -36,6 +36,7 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
+    uid = Column(String)
     name = Column(String)
     password = Column(String)
     company_name = Column(String)
@@ -52,10 +53,11 @@ class Host(Base, Dictable):
     name = Column(String)
     description = Column(String)
     url = Column(String)
-    user = ForeignKey("users.user_id")
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user = relationship("User", uselist=False)
     bounties = relationship("Bounty", backref="hosts")
 
-    def add_bounty(self, type_, amount):
+    def add_bounty  (self, type_, amount):
         self.bounties.append(Bounty(type=type_, amount=amount, host_id=self.id, status=Bounty.ACTIVE))
 
 
@@ -78,8 +80,32 @@ class Bounty(Base, Dictable):
     amount = Column(Integer)
     status = Column(String)
 
+    exploits = relationship("Exploit")
 
-def connect(db_path=":memory:", echo=True):
+    def add_exploit(self, user_id, description):
+        """
+        Add exploit. Make sure thr bounty is active before calling this method!
+        """
+        self.status = Bounty.APPLIED
+        self.exploits.append(Exploit(bounty_id=self.id,status=Exploit.OPEN, user_id=user_id, description=description))
+
+
+class Exploit(Base, Dictable):
+    __tablename__ = "exploits"
+
+    #Statussesh
+    OPEN = "open"
+    CONFIRMED = "confirmed"
+    REJECTED = "rejected"
+
+    id = Column(Integer, primary_key=True)
+    bounty_id = Column(Integer, ForeignKey('bounties.id'))
+    status = Column(String)
+    description = Column(String)
+    user_id = Column(Integer, ForeignKey('users.id'))
+
+
+def connect(db_path=":memory:", echo=False):
     """
     Connect to the db.
     :param db_path: path to create the sqlite file in.`

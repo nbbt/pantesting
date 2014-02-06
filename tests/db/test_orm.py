@@ -2,6 +2,7 @@ from pantesting.db.orm import connect, User, Host, Bounty, Exploit
 import pytest
 __author__ = 'Anya'
 
+
 def test_orm():
     """
     Check the the orm basically works.

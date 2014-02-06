@@ -8,6 +8,10 @@ class SimpleClass(Dictable):
         Dictable.__init__(self)
         self.id = id
         self.name = name
+        self._bar = "bar"
+
+    def _foo(self):
+        pass
 
 
 class NestedClass(Dictable):
@@ -17,6 +21,8 @@ class NestedClass(Dictable):
         self.status = status
         self.simple_class = simple_class
 
+    def _bar(self):
+        pass
 
 def test_simple_class():
     """
