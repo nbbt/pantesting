@@ -28,10 +28,9 @@ def new_host():
 
 @db_access.route("/remove_host/<host_id>", methods=["DELETE"])
 def remove_host(host_id):
-    pass
-
-
-
+    host = api.get_hosts(id=host_id)
+    api.remove(host)
+    api.commit()
 
 
 

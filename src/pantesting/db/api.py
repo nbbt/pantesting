@@ -32,3 +32,6 @@ class PanetesterApi(object):
 
     def commit(self):
         self._session.commit()
+
+    def remove(self, obj):
+        self._session.delete(obj)
