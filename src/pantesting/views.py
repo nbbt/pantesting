@@ -1,11 +1,14 @@
 from flask import Flask, jsonify
 from flask.ext.login import LoginManager, login_user, current_user, make_secure_token, logout_user
+
 from pantesting.db.orm import Host, User
+from pantesting.db_access import db_access
 
 login_manager = LoginManager()
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?NT'
 login_manager.init_app(app)
+app.register_blueprint(db_access)
 
 @app.route('/')
 def index():
