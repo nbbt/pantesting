@@ -56,10 +56,6 @@ class Host(Base):
     def add_bounty(self, type_, amount):
         self.bounties.append(Bounty(type=type_, amount=amount, host_id=self.id, status=Bounty.ACTIVE))
 
-    def to_dict(self):
-        pass
-
-
 class Bounty(Base):
     __tablename__ = 'bounties'
 

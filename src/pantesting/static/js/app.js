@@ -1,4 +1,4 @@
-var pantestingApp = angular.module('pantestingApp', ['ngRoute']);
+var pantestingApp = angular.module('pantestingApp', ['ngRoute', 'pantestServices']);
 
 pantestingApp.config(['$routeProvider', function($routeProvider) {
 		$routeProvider
@@ -15,6 +15,10 @@ pantestingApp.config(['$routeProvider', function($routeProvider) {
 				controller  : 'HostDetails',
                 requiresLogin: true
 			})
+            .when('/register', {
+				templateUrl : 'static/html/registration.html',
+				controller  : 'HostDetails'
+			})
 
 
 	}]).run(function($rootScope, $location){
@@ -25,3 +29,12 @@ pantestingApp.config(['$routeProvider', function($routeProvider) {
             }
     });
 });
+
+var phonecatServices = angular.module('pantestServices', ['ngResource']);
+
+pantestingApp.factory('Host', ['$resource',
+  function($resource){
+    return $resource('get_hosts/:hostId', {}, {
+      query: {method:'GET', params:{hostId:'all'}, isArray:true}
+    });
+  }]);

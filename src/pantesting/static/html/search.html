@@ -7,9 +7,9 @@
         <th>Bounties</th>
         <th>Time Left</th>
     </tr>
-    <tr ng-click="openHost(host.hostId)" ng-repeat="host in hosts|filter:search">
-        <td><a href="#/host/{{host.hostId}}">{{host.name}}</a></td>
-        <td>{{host.company}}</td>
+    <tr ng-click="openHost(host.id)" ng-repeat="host in hosts.all|filter:search">
+        <td><a href="#/host/{{host.id}}"><i class="fa fa-globe"></i> {{host.name}}</a></td>
+        <td>{{host.user.company_name}}</td>
         <td></td>
         <td>{{host.time_left}}</td>
     </tr>
