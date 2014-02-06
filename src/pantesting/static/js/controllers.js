@@ -16,9 +16,9 @@ angular.module('pantestingApp').controller('PanTestingController',
                 }
             }
       }
-      $scope.newHost = function(hostName, hostDescription, bounties) {
+      $scope.newHost = function(hostName, hostDescription, bounties, url) {
            $http.post('/new_host', JSON.stringify({"hostName": hostName, "description": hostDescription, "bounties": bounties,
-                                                    "userId": $rootScope.currentUser.id}))
+                                                    "userId": $rootScope.currentUser.id, url: url}))
                 .success(function(data) {
                    alert('New host created');
                });
