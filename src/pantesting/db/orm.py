@@ -18,16 +18,18 @@ class Dictable(object):
     Mixinm, adds to_dict method to the class.
     """
     def to_dict(self):
-        dct = self.__dict__
-        for key, value in dct.items():
-            if key[:2] == "__":
-                dct.pop(key)
+        new_dict = {}
+        for key, value in self.__dict__.iteritems():
+            if key.startswith('_'):
+                continue
             if self._is_complex_object(value):
-                dct[key] = value.to_dict()
-        return dct
+                new_dict[key] = value.to_dict()
+            else:
+                new_dict[key] = value
+        return new_dict
 
     def _is_complex_object(self, obj):
-        return not (isinstance(obj, int) or isinstance(obj, str))
+        return hasattr(obj, '__dict__')
 
 
 class User(Base):
@@ -43,7 +45,7 @@ class User(Base):
             self.name, self.company_name, self.password)
 
 
-class Host(Base):
+class Host(Base, Dictable):
     __tablename__ = "hosts"
 
     id = Column(Integer, primary_key=True)
@@ -56,11 +58,8 @@ class Host(Base):
     def add_bounty(self, type_, amount):
         self.bounties.append(Bounty(type=type_, amount=amount, host_id=self.id, status=Bounty.ACTIVE))
 
-    def to_dict(self):
-        pass
 
-
-class Bounty(Base):
+class Bounty(Base, Dictable):
     __tablename__ = 'bounties'
 
     #Types
