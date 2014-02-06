@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify
+import json
+from flask import Blueprint, jsonify, request
 from pantesting.db.api import PanetesterApi
 
 __author__ = 'newt'
@@ -13,6 +14,20 @@ def get_hosts(host_id):
     else:
         hosts = api.get_hosts(id=host_id)
     return jsonify({'all': [host.to_dict() for host in hosts]})
+
+@db_access.route('/new_host', method=['POST'])
+def new_host():
+    request_dict = json.loads(request.data)
+    user = api.get_users(request_dict["user_id"])[0]
+    host = user.add_host(name=request_dict["hostName"], description=request_dict["description"], url=request_dict["url"])
+    for bounty in request_dict["bounties"]:
+        host.add_bounty(type_=bounty["type"], amount=int(bounty["amount"]))
+    api.commit()
+    return ""
+
+
+
+
 
 @db_access.route('/example', methods=['GET', 'POST'])
 def example():

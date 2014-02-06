@@ -28,6 +28,7 @@ class PanetesterApi(object):
         user = User(name=name, password=password, company_name=company_name)
         self._session.add(user)
         self._session.commit()
+        return user
 
     def commit(self):
         self._session.commit()
