@@ -14,12 +14,6 @@ app.register_blueprint(db_access)
 def index():
     return app.send_static_file('html/index.html')
 
-@app.route('/get_hosts/<host_id>')
-def get_hosts(host_id):
-    hosts = [Host(id=0, name='PayPal', description='Just paypal', url='http://paypal.com',
-                  user=User(name='newt', company_name='PayPal Inc.'))]
-    if host_id == 'all':
-        return jsonify({'all': [host.to_dict() for host in hosts]})
 
 @app.route('/login')
 def login():
