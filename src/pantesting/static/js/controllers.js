@@ -1,5 +1,5 @@
 angular.module('pantestingApp').controller('PanTestingController',
-  function($scope, $rootScope, Host) {
+  function($scope, $rootScope, $http, Host) {
       /*scope.hosts = [{name: 'My Host', time_left: '1 week', company: 'My company 1', hostId: 0},
                         {name: 'PayPal.com', description: 'PayPal is awesome', 'url': 'http://paypal.com', user: "newt",
                             time_left: '24 hours', company: 'PayPal', hostId: 1}];
@@ -11,8 +11,8 @@ angular.module('pantestingApp').controller('PanTestingController',
                 return;
             }
             for (var i=0; i < $scope.hosts.all.length; i++) {
-                if ($scope.hosts[i].id.toString() == hostId.toString()) {
-                    return $scope.hosts[i];
+                if ($scope.hosts.all[i].id.toString() == hostId.toString()) {
+                    return $scope.hosts.all[i];
                 }
             }
       }
@@ -22,11 +22,21 @@ angular.module('pantestingApp').controller('PanTestingController',
           return $rootScope.currentUser != null;
       }
       $rootScope.authenticate = function(username, password) {
-          if (true) {
-              $rootScope.currentUser = {username: username}
-          }
+          $http.get('/login').success(function() {
+                    $rootScope.getCurrentUser();
+          });
+      }
+      $rootScope.getCurrentUser = function() {
+          $http.get('/get_user').success(function(data) {
+                if (data) {
+                    $rootScope.currentUser = data;
+                }
+          });
       }
       $rootScope.logout = function() {
-          $rootScope.currentUser = null;
+          $http.get('/logout').success(function() {
+                $rootScope.currentUser = null;
+          });
       }
+      $rootScope.getCurrentUser();
   });

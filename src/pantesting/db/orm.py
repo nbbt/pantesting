@@ -1,3 +1,4 @@
+from flask.ext.login import UserMixin
 from sqlalchemy.orm.session import sessionmaker
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import Enum
@@ -32,7 +33,7 @@ class Dictable(object):
         return hasattr(obj, '__dict__')
 
 
-class User(Base):
+class User(Base, Dictable, UserMixin):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)

@@ -1,16 +1,18 @@
-<input type="text" class="form-control" placeholder="Search" ng-model="search"/>
+<div class="main-view">
+    <input type="text" class="search-bar form-control" placeholder="Search" ng-model="search"/>
 
-<table class="table table-striped">
-    <tr>
-        <th>Host</th>
-        <th>Company</th>
-        <th>Bounties</th>
-        <th>Time Left</th>
-    </tr>
-    <tr ng-click="openHost(host.id)" ng-repeat="host in hosts.all|filter:search">
-        <td><a href="#/host/{{host.id}}"><i class="fa fa-globe"></i> {{host.name}}</a></td>
-        <td>{{host.user.company_name}}</td>
-        <td></td>
-        <td>{{host.time_left}}</td>
-    </tr>
-</table>
+    <table class="table table-striped">
+        <tr>
+            <th>Host</th>
+            <th>Company</th>
+            <th>Bounties</th>
+            <th>Time Left</th>
+        </tr>
+        <tr ng-click="openHost(host.id)" ng-repeat="host in hosts.all|filter:search">
+            <td><a href="#/host/{{host.id}}"><i class="fa fa-globe"></i> {{host.name}}</a></td>
+            <td>{{host.user.company_name}}</td>
+            <td></td>
+            <td>{{host.time_left}}</td>
+        </tr>
+    </table>
+</div>

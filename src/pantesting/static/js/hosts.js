@@ -10,6 +10,11 @@ angular.module('pantestingApp').controller('HostDetails',
       $scope.host = $scope.getHost($routeParams.hostId);
 
       $scope.isUserHostOwner = function() {
-          return $scope.host.user == $rootScope.currentUser.username;
+          return $rootScope.currentUser && $scope.host.user.name == $rootScope.currentUser.name;
       }
+  });
+
+angular.module('pantestingApp').controller('Profile',
+  function($scope, $routeParams, $rootScope) {
+      $scope.user = $rootScope.currentUser;
   });

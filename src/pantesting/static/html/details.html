@@ -1,6 +1,6 @@
 <div id="details-view">
-    <div id="host-main">
-        <h2>{{host.name}} <small id="host-company">({{host.company}})</small>
+    <div class="main-view">
+        <h2>{{host.name}} <small id="host-company">({{host.user.company_name}})</small>
             <span ng-if="isUserHostOwner()">
                 <button class="pull-right btn btn-danger"><i class="fa fa-trash-o"></i> Remove</button>
                 <button class="pull-right btn btn-info"><i class="fa fa-dollar"></i> Add Bounty</button>
@@ -24,7 +24,7 @@
                 <tr>
                     <td>Code Execution</td>
                     <td>5,000,000$</td>
-                    <td><button class="btn btn-success"><i class="fa fa-bolt"></i> Submit</button></td>
+                    <td><button class="btn btn-success" data-toggle="modal" data-target="#submissionModal"><i class="fa fa-bolt"></i> Submit</button></td>
                 </tr>
                 <tr>
                     <td>XSS</td>
@@ -35,3 +35,37 @@
         </div>
     </div>
  </div>
+
+
+<div class="modal fade" id="submissionModal" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="modal-title">Submit Exploit</h4>
+      </div>
+      <div class="modal-body">
+          <table class="table exploit-details">
+                <tr>
+                    <th>Exploit Type</th>
+                    <td>{{bounty.type}}</td>
+                </tr>
+                <tr>
+                    <th>Given Bounty</th>
+                    <td>{{bounty.amount}}</td>
+                </tr>
+          </table>
+          <form role="form">
+              <div class="form-group">
+                 <label for="description">Description</label>
+                <textarea class="form-control" placeholder="Describe your exploit in modest detail" id="description" ng-model="description" required/>
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

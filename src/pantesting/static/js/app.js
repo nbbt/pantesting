@@ -19,6 +19,10 @@ pantestingApp.config(['$routeProvider', function($routeProvider) {
 				templateUrl : 'static/html/registration.html',
 				controller  : 'HostDetails'
 			})
+            .when('/profile', {
+				templateUrl : 'static/html/profile.html',
+				controller  : 'Profile'
+			})
 
 
 	}]).run(function($rootScope, $location){
@@ -35,6 +39,6 @@ var phonecatServices = angular.module('pantestServices', ['ngResource']);
 pantestingApp.factory('Host', ['$resource',
   function($resource){
     return $resource('get_hosts/:hostId', {}, {
-      query: {method:'GET', params:{hostId:'all'}, isArray:true}
+      query: {method:'GET', params:{hostId:'all'}   }
     });
   }]);
