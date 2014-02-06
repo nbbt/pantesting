@@ -26,6 +26,12 @@ def new_host():
     return ""
 
 
+@db_access.route("/remove_host/<host_id>", methods=["DELETE"])
+def remove_host(host_id):
+    pass
+
+
+
 
 
 
