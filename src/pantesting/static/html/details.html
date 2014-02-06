@@ -31,6 +31,11 @@
                     <td>3.50$</td>
                     <td><button class="btn btn-success"><i class="fa fa-bolt"></i> Submit</button></td>
                 </tr>
+                <tr ng-repeat="bounty in bounties">
+                    <td>{{bounty.type}}</td>
+                    <td>{{bounty.amount}}$</td>
+                    <td><button class="btn btn-success" ng-click="submittedBounty=bounty"><i class="fa fa-bolt"></i> Submit</button></td>
+                </tr>
             </table>
         </div>
     </div>
@@ -48,11 +53,11 @@
           <table class="table exploit-details">
                 <tr>
                     <th>Exploit Type</th>
-                    <td>{{bounty.type}}</td>
+                    <td>{{submittedBounty.type}}</td>
                 </tr>
                 <tr>
                     <th>Given Bounty</th>
-                    <td>{{bounty.amount}}</td>
+                    <td>{{submittedBounty.amount}}</td>
                 </tr>
           </table>
           <form role="form">
@@ -64,7 +69,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submitExploit(submittedBounty.id)">Submit</button>
       </div>
     </div>
   </div>
