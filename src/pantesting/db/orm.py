@@ -49,7 +49,7 @@ class User(Base, Dictable, UserMixin):
     def add_host(self, name, description=None, url=None):
         self.hosts.append(Host(name=name, description=description, url=url, user_id=self.id))
 
-class Host(Base):
+class Host(Base, Dictable):
     __tablename__ = "hosts"
 
     id = Column(Integer, primary_key=True)
@@ -64,7 +64,7 @@ class Host(Base):
         self.bounties.append(Bounty(type=type_, amount=amount, host_id=self.id, status=Bounty.ACTIVE))
 
 
-class Bounty(Base):
+class Bounty(Base, Dictable):
     __tablename__ = 'bounties'
 
     #Types
@@ -93,7 +93,7 @@ class Bounty(Base):
         self.exploits.append(Exploit(bounty_id=self.id,status=Exploit.OPEN, user_id=user_id, description=description))
 
 
-class Exploit(Base):
+class Exploit(Base, Dictable):
     __tablename__ = "exploits"
 
     #Statussesh
