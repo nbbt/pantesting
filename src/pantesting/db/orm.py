@@ -47,7 +47,9 @@ class User(Base, Dictable, UserMixin):
             self.name, self.company_name, self.password)
 
     def add_host(self, name, description=None, url=None):
-        self.hosts.append(Host(name=name, description=description, url=url, user_id=self.id))
+        host = Host(name=name, description=description, url=url, user_id=self.id)
+        self.hosts.append(host)
+        return host
 
 class Host(Base, Dictable):
     __tablename__ = "hosts"
