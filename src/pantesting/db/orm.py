@@ -67,7 +67,8 @@ class Host(Base, Dictable):
     bounties = relationship("Bounty", backref="hosts")
 
     def add_bounty(self, type_, amount):
-        self.bounties.append(Bounty(type=type_, amount=amount, host_id=self.id, status=Bounty.ACTIVE))
+        bounty = Bounty(type=type_, amount=amount, host_id=self.id, status=Bounty.ACTIVE)
+        self.bounties.append(bounty)
 
 
 class Bounty(Base, Dictable):
@@ -96,7 +97,9 @@ class Bounty(Base, Dictable):
         Add exploit. Make sure thr bounty is active before calling this method!
         """
         self.status = Bounty.APPLIED
-        self.exploits.append(Exploit(bounty_id=self.id,status=Exploit.OPEN, user_id=user_id, description=description))
+        exploit = Exploit(bounty_id=self.id,status=Exploit.OPEN, user_id=user_id, description=description)
+        self.exploits.append(exploit)
+        return exploit
 
 
 class Exploit(Base):

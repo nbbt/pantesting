@@ -23,7 +23,7 @@ def new_host():
     for bounty in request_dict["bounties"]:
         host.add_bounty(type_=bounty["type"], amount=int(bounty["amount"]))
     api.commit()
-    return ""
+    return host
 
 
 @db_access.route("/remove_host/<host_id>", methods=["DELETE"])
@@ -32,6 +32,25 @@ def remove_host(host_id):
     api.remove(host)
     api.commit()
 
+@db_access.route("/submit_exploit", methods=["POST"])
+def add_exploit():
+    request_dict = json.loads(request.data)
+    bounty = api.get_bounties(id=request_dict["bountyId"])
+    exploit = bounty.add_exploit(user_id=request_dict["userId"], description=request_dict["description"])
+    api.commit()
+    return exploit
+
+@db_access.route("/add_bounty", methods=["POST"])
+def add_bounty():
+    request_dict = json.loads(request.data)
+    host = api.get_hosts(id=request_dict["hostId"])
+    bounty = host.add_bounty(type_=request_dict["type"], amount=request_dict["amount"])
+    api.commit()
+    return bounty
+
+@db_access.route("/approve_exploit/<exploit_id>", methods=["PUT"])
+def approve_exploit():
+    pass
 
 
 @db_access.route('/example', methods=['GET', 'POST'])

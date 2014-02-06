@@ -1,5 +1,5 @@
 import os
-from pantesting.db.orm import User, Host, connect
+from pantesting.db.orm import User, Host, connect, Bounty
 
 __author__ = 'Anya'
 
@@ -23,6 +23,9 @@ class PanetesterApi(object):
         Return all hosts that feet the given conditions (via kwargs).
         """
         return self._session.query(Host).filter_by(**kwargs).all()
+
+    def get_bounties(self, **kwargs):
+        return self._session.query(Bounty).filter_by(**kwargs).all()
 
     def add_user(self, name, password, company_name):
         user = User(name=name, password=password, company_name=company_name)
