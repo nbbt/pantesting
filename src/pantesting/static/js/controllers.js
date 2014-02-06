@@ -24,7 +24,7 @@ angular.module('pantestingApp').controller('PanTestingController',
                });
       }
       $scope.removeHost = function(hostId) {
-          $http.get('/remove_host/' + hostId.toString()).success(function() {
+          $http.delete('/remove_host/' + hostId.toString()).success(function() {
               alert('Deleted');
           })
       }
