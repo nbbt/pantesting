@@ -1,11 +1,11 @@
-from pantesting.db.orm import connect, User, Host, Bounty
-
+from pantesting.db.orm import connect, User, Host, Bounty, Exploit
+import pytest
 __author__ = 'Anya'
-
 
 def test_orm():
     """
     Check the the orm basically works.
+    TODO: Split this test into real unit tests.
     """
     session = connect()
     user_details = {"name": "foo", "password": "bar", "company_name": "foobar"}
@@ -30,9 +30,21 @@ def test_orm():
     host_from_db = session.query(Host).filter(Host.name == host_details["name"]).first()
     bounties_from_db = session.query(Bounty).filter().all()
 
+
     assert user_from_db.company_name == user_details["company_name"]
     assert host_from_db.url == host_details["url"]
     assert len(bounties_from_db) == 3
 
     for bounty in bounties_from_db:
         assert bounty.host_id == host_from_db.id
+
+    bounty = bounties_from_db[0]
+    exploit_details = {"user_id": user.id, "description": "An exlpoint"}
+    bounty.add_exploit(**exploit_details)
+    session.commit()
+
+    exploit_from_db = session.query(Exploit).first()
+    assert exploit_from_db.id == user.id
+
+
+
