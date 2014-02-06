@@ -13,20 +13,19 @@ from sqlalchemy.orm import relationship, backref
 
 Base = declarative_base()
 
-
 class Dictable(object):
     """
     Mixinm, adds to_dict method to the class.
     """
-    def to_dict(self):
+    def to_dict(self, is_first_class=True):
         new_dict = {}
         for key, value in self.__dict__.iteritems():
             if key.startswith('_'):
                 continue
-            if self._is_complex_object(value):
-                new_dict[key] = value.to_dict()
-            else:
+            if not self._is_complex_object(value):
                 new_dict[key] = value
+            elif is_first_class:
+                new_dict[key] = value.to_dict(False)
         return new_dict
 
     def _is_complex_object(self, obj):
@@ -37,30 +36,35 @@ class User(Base, Dictable, UserMixin):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
+    uid = Column(String)
     name = Column(String)
     password = Column(String)
     company_name = Column(String)
+    hosts = relationship("Host")
 
     def __repr__(self):
         return "<User(name='%s', company_name='%s', password='%s')>" % (
             self.name, self.company_name, self.password)
 
+    def add_host(self, name, description=None, url=None):
+        self.hosts.append(Host(name=name, description=description, url=url, user_id=self.id))
 
-class Host(Base, Dictable):
+class Host(Base):
     __tablename__ = "hosts"
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
     description = Column(String)
     url = Column(String)
-    user = ForeignKey("users.user_id")
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user = relationship("User", uselist=False)
     bounties = relationship("Bounty", backref="hosts")
 
-    def add_bounty(self, type_, amount):
+    def add_bounty  (self, type_, amount):
         self.bounties.append(Bounty(type=type_, amount=amount, host_id=self.id, status=Bounty.ACTIVE))
 
 
-class Bounty(Base, Dictable):
+class Bounty(Base):
     __tablename__ = 'bounties'
 
     #Types
@@ -79,8 +83,32 @@ class Bounty(Base, Dictable):
     amount = Column(Integer)
     status = Column(String)
 
+    exploits = relationship("Exploit")
 
-def connect(db_path=":memory:", echo=True):
+    def add_exploit(self, user_id, description):
+        """
+        Add exploit. Make sure thr bounty is active before calling this method!
+        """
+        self.status = Bounty.APPLIED
+        self.exploits.append(Exploit(bounty_id=self.id,status=Exploit.OPEN, user_id=user_id, description=description))
+
+
+class Exploit(Base):
+    __tablename__ = "exploits"
+
+    #Statussesh
+    OPEN = "open"
+    CONFIRMED = "confirmed"
+    REJECTED = "rejected"
+
+    id = Column(Integer, primary_key=True)
+    bounty_id = Column(Integer, ForeignKey('bounties.id'))
+    status = Column(String)
+    description = Column(String)
+    user_id = Column(Integer, ForeignKey('users.id'))
+
+
+def connect(db_path=":memory:", echo=False):
     """
     Connect to the db.
     :param db_path: path to create the sqlite file in.`

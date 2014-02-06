@@ -2,13 +2,14 @@ from pantesting.db.orm import connect, User, Host, Bounty, Exploit
 import pytest
 __author__ = 'Anya'
 
+
 def test_orm():
     """
     Check the the orm basically works.
     TODO: Split this test into real unit tests.
     """
     session = connect()
-    user_details = {"name": "foo", "password": "bar", "company_name": "foobar"}
+    user_details = {"name": "foo", "password": "bar", "company_name": "foobar", "uid": "12345"}
     user = User(**user_details)
     host_details = {"name": "facebook", "url": "http://www.facebook.com", "user": user.id, "bounties": []}
     host = Host(**host_details)
