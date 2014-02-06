@@ -3,5 +3,10 @@
 }
 
 #details-view {
-    padding-left: 53px;
+    padding-left: 25px;
+}
+
+#host-main {
+    padding-left: 20px;
+    padding-bottom: 10px;
 }
