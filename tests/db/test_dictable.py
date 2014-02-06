@@ -13,7 +13,6 @@ class SimpleClass(Dictable):
     def _foo(self):
         pass
 
-
 class NestedClass(Dictable):
     def __init__(self, id, status, simple_class):
         Dictable.__init__(self)
