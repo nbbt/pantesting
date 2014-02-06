@@ -1,6 +1,5 @@
 from sqlalchemy.orm.session import sessionmaker
 from sqlalchemy.sql.schema import ForeignKey
-from sqlalchemy.sql.sqltypes import Enum
 from sqlalchemy import create_engine
 
 __author__ = 'Anya'
@@ -43,7 +42,7 @@ class User(Base):
             self.name, self.company_name, self.password)
 
 
-class Host(Base):
+class Host(Base, Dictable):
     __tablename__ = "hosts"
 
     id = Column(Integer, primary_key=True)
@@ -60,7 +59,7 @@ class Host(Base):
         pass
 
 
-class Bounty(Base):
+class Bounty(Base, Dictable):
     __tablename__ = 'bounties'
 
     #Types
@@ -70,7 +69,7 @@ class Bounty(Base):
 
     #Statusses
     ACTIVE = "active"
-    APPLIED = "applies"
+    APPLIED = "applied"
     EXPIRED = "expired"
 
     id = Column(Integer, primary_key=True)
@@ -78,9 +77,32 @@ class Bounty(Base):
     host_id = Column(Integer, ForeignKey('hosts.id'))
     amount = Column(Integer)
     status = Column(String)
+    exploits = relationship("Exploit", backref="bounties")
+
+    def add_exploit(self, user_id, description):
+        """
+        Add exploit. Make sure thr bounty is active before calling this method!
+        """
+        self.status = Bounty.APPLIED
+        self.exploits.append(Exploit(bounty=self, status=Exploit.OPEN, user_id=user_id, description=description))
 
 
-def connect(db_path=":memory:", echo=True):
+class Exploit(Base, Dictable):
+    __tablename__ = "exploits"
+
+    #Statussesh
+    OPEN = "open"
+    CONFIRMED = "confirmed"
+    REJECTED = "rejected"
+
+    id = Column(Integer, primary_key=True)
+    bounty = Column(Integer, ForeignKey('bounties.id'))
+    status = Column(String)
+    description = Column(String)
+    user_id = Column(Integer, ForeignKey('users.id'))
+
+
+def connect(db_path=":memory:", echo=False):
     """
     Connect to the db.
     :param db_path: path to create the sqlite file in.`
