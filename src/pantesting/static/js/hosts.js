@@ -3,6 +3,8 @@ angular.module('pantestingApp').controller('Hosts',
         $scope.openHost = function(host) {
             $scope.$parent.currentView = 'details';
         }
+
+
   });
 
 angular.module('pantestingApp').controller('HostDetails',

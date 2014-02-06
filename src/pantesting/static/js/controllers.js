@@ -16,6 +16,17 @@ angular.module('pantestingApp').controller('PanTestingController',
                 }
             }
       }
+      $scope.newHost = function(hostName, hostDescription, bounties) {
+           $http.post('/new_host', JSON.stringify({"hostName": hostName, "description": hostDescription, "bounties": bounties}))
+                .success(function(data) {
+                   alert('New host created');
+               });
+      }
+      $scope.removeHost = function(hostId) {
+          $http.get('/remove_host/' + hostId.toString()).success(function() {
+              alert('Deleted');
+          })
+      }
 
       $rootScope.currentUser = null;
       $rootScope.isAuthenticated = function() {
