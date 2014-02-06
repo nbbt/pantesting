@@ -24,6 +24,7 @@ class NestedClass(Dictable):
     def _bar(self):
         pass
 
+
 def test_simple_class():
     """
     Check that simple class (all members are basic python types) is properly converted to dictionary.
