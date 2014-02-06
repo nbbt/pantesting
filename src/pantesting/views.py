@@ -4,7 +4,7 @@ from flask import Flask, jsonify, abort, request
 from flask.ext.login import LoginManager, login_user, current_user, make_secure_token, logout_user
 
 from pantesting.db.orm import Host, User
-from pantesting.db_access import db_access
+from pantesting.db_access import db_access, api
 
 login_manager = LoginManager()
 app = Flask(__name__)
@@ -31,6 +31,7 @@ def login():
 @app.route('/register', methods=["POST"])
 def register():
     user_data = json.loads(request.data)
+
 
 
 @app.route('/logout')
