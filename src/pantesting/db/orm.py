@@ -1,4 +1,5 @@
 from flask.ext.login import UserMixin
+from sqlalchemy.orm.collections import InstrumentedList
 from sqlalchemy.orm.session import sessionmaker
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import Enum
@@ -22,7 +23,9 @@ class Dictable(object):
         for key, value in self.__dict__.iteritems():
             if key.startswith('_'):
                 continue
-            if not self._is_complex_object(value):
+            if isinstance(value, InstrumentedList) and is_first_class:
+                new_dict[key] = [element.to_dict() for element in value]
+            elif not self._is_complex_object(value):
                 new_dict[key] = value
             elif is_first_class:
                 new_dict[key] = value.to_dict(False)
@@ -40,7 +43,7 @@ class User(Base, Dictable, UserMixin):
     name = Column(String)
     password = Column(String)
     company_name = Column(String)
-    hosts = relationship("Host")
+    hosts = relationship("Host", lazy="immediate")
 
     def __repr__(self):
         return "<User(name='%s', company_name='%s', password='%s')>" % (
@@ -60,10 +63,10 @@ class Host(Base, Dictable):
     description = Column(String)
     url = Column(String)
     user_id = Column(Integer, ForeignKey("users.id"))
-    user = relationship("User", uselist=False)
+    user = relationship("User", uselist=False, lazy="immediate")
     bounties = relationship("Bounty", backref="hosts")
 
-    def add_bounty  (self, type_, amount):
+    def add_bounty(self, type_, amount):
         self.bounties.append(Bounty(type=type_, amount=amount, host_id=self.id, status=Bounty.ACTIVE))
 
 
@@ -86,7 +89,7 @@ class Bounty(Base, Dictable):
     amount = Column(Integer)
     status = Column(String)
 
-    exploits = relationship("Exploit")
+    exploits = relationship("Exploit", lazy="immediate")
 
     def add_exploit(self, user_id, description):
         """
