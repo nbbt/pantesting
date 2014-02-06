@@ -8,11 +8,11 @@
       <div class="modal-body">
           <div class="form-group">
                <label>Host name</label>
-               <input class="form-control" model="host-name"/>
+               <input class="form-control" ng-model="name"/>
           </div>
           <div class="form-group">
                <label>Description</label>
-               <textarea class="form-control" model="description" placeholder="Describe your website, what sort of exploits you're looking for.."/>
+               <textarea class="form-control" ng-model="description" placeholder="Describe your website, what sort of exploits you're looking for.."/>
           </div>
 
 
@@ -21,7 +21,7 @@
                   <div class="well">
                   <div class="form-group">
                       <label>Bounty Type</label>
-                      <select class="form-control" model="bounty-type">
+                      <select class="form-control" ng-model="bounty.type">
                             <option>Code Execution</option>
                             <option>XSS</option>
                             <option>File Access</option>
@@ -30,7 +30,7 @@
                   </div>
                   <div class="form-group">
                         <label>Bounty amount</label>
-                        <input class="form-control" type="number" model="bounty-amount" placeholder="5.00"/>
+                        <input class="form-control" type="number" ng-model="bounty.amount" placeholder="5.00"/>
                   </div>
                   </div>
               </div>
@@ -39,7 +39,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+        <button type="button" class="btn btn-primary" ng-click="newHost(name, description, bounties)" data-dismiss="modal">Submit</button>
       </div>
     </div>
   </div>

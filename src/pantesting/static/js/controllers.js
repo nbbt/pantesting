@@ -16,6 +16,12 @@ angular.module('pantestingApp').controller('PanTestingController',
                 }
             }
       }
+      $scope.newHost = function(hostName, hostDescription, bounties) {
+           $http.post('/new_host', JSON.stringify({"hostName": hostName, "description": hostDescription, "bounties": bounties}))
+                .success(function(data) {
+                   alert('New host created');
+               });
+      }
 
       $rootScope.currentUser = null;
       $rootScope.isAuthenticated = function() {
