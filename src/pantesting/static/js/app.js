@@ -39,6 +39,7 @@ var phonecatServices = angular.module('pantestServices', ['ngResource']);
 pantestingApp.factory('Host', ['$resource',
   function($resource){
     return $resource('get_hosts/:hostId', {}, {
-      query: {method:'GET', params: {hostId:'all'}   }
+      query: {method:'GET', params: {hostId:'all'}   },
+      remove: {method: 'GET', params: {hostId: null}}
     });
   }]);

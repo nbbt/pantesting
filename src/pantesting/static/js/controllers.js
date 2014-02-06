@@ -22,6 +22,11 @@ angular.module('pantestingApp').controller('PanTestingController',
                    alert('New host created');
                });
       }
+      $scope.removeHost = function(hostId) {
+          $http.get('/remove_host/' + hostId.toString()).success(function() {
+              alert('Deleted');
+          })
+      }
 
       $rootScope.currentUser = null;
       $rootScope.isAuthenticated = function() {
