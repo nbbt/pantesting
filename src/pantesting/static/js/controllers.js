@@ -34,7 +34,7 @@ angular.module('pantestingApp').controller('PanTestingController',
           return $rootScope.currentUser != null;
       }
       $rootScope.authenticate = function(username, password) {
-          $http.get('/login').success(function() {
+          $http.post('/login', {username: username, password: password}).success(function() {
                     $rootScope.getCurrentUser();
           });
       }

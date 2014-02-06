@@ -51,6 +51,7 @@ class User(Base, Dictable, UserMixin):
         self.hosts.append(host)
         return host
 
+
 class Host(Base, Dictable):
     __tablename__ = "hosts"
 

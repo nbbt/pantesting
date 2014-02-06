@@ -21,7 +21,7 @@ def index():
 def login():
     # Checks password with the DB.
     user_data = json.loads(request.data)
-    users = api.get_users(name=user_data['name'], password=hashlib.md5(user_data['password']))
+    users = api.get_users(name=user_data['username'], password=hashlib.md5(user_data['password']).hexdigest())
     if users:
         login_user(users[0], remember=True)
         return 'OK'
@@ -30,8 +30,8 @@ def login():
 
 @app.route('/register', methods=["POST"])
 def register():
-    user_data = json.loads(request.data)
-
+    api.add_user(request.form['username'], hashlib.md5(request.form['password']).hexdigest(), request.form['company_name'])
+    return 'OK'
 
 
 @app.route('/logout')
@@ -48,10 +48,9 @@ def get_current_user():
 @login_manager.user_loader
 def load_user(userid):
     # Should fetch from the DB
-    users = api.get_users(uid=userid)
+    users = api.get_users(id=userid)
     if users:
         return users[0]
-
 
 if __name__ == '__main__':
     app.run(debug=True)
