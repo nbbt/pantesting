@@ -12,20 +12,19 @@ from sqlalchemy.orm import relationship, backref
 
 Base = declarative_base()
 
-
 class Dictable(object):
     """
     Mixinm, adds to_dict method to the class.
     """
-    def to_dict(self):
+    def to_dict(self, is_first_class=True):
         new_dict = {}
         for key, value in self.__dict__.iteritems():
             if key.startswith('_'):
                 continue
-            if self._is_complex_object(value):
-                new_dict[key] = value.to_dict()
-            else:
+            if not self._is_complex_object(value):
                 new_dict[key] = value
+            elif is_first_class:
+                new_dict[key] = value.to_dict(False)
         return new_dict
 
     def _is_complex_object(self, obj):
@@ -40,13 +39,16 @@ class User(Base):
     name = Column(String)
     password = Column(String)
     company_name = Column(String)
+    hosts = relationship("Host")
 
     def __repr__(self):
         return "<User(name='%s', company_name='%s', password='%s')>" % (
             self.name, self.company_name, self.password)
 
+    def add_host(self, name, description=None, url=None):
+        self.hosts.append(Host(name=name, description=description, url=url, user_id=self.id))
 
-class Host(Base, Dictable):
+class Host(Base):
     __tablename__ = "hosts"
 
     id = Column(Integer, primary_key=True)
@@ -61,7 +63,7 @@ class Host(Base, Dictable):
         self.bounties.append(Bounty(type=type_, amount=amount, host_id=self.id, status=Bounty.ACTIVE))
 
 
-class Bounty(Base, Dictable):
+class Bounty(Base):
     __tablename__ = 'bounties'
 
     #Types
@@ -90,7 +92,7 @@ class Bounty(Base, Dictable):
         self.exploits.append(Exploit(bounty_id=self.id,status=Exploit.OPEN, user_id=user_id, description=description))
 
 
-class Exploit(Base, Dictable):
+class Exploit(Base):
     __tablename__ = "exploits"
 
     #Statussesh
