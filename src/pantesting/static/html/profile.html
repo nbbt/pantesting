@@ -4,27 +4,37 @@
     <div class="panel panel-info">
         <div class="panel-body">Statistics</div>
         <div class="panel-footer">
-            Exploits accepted: 5<br/>
-            Funds spent: 1$
+            <strong>Exploits accepted:</strong> 0<br/>
+            <strong>Funds spent:</strong> $0.00
         </div>
     </div>
 
     <div>
-        <h2><i class="fa fa-gavel"></i> Exploit Submissions</h2>
-        <div ng-if="!userExploitSubmissions" class="well">
+        <h2><i class="fa fa-gavel"></i> Submissions For Approval</h2>
+        <div ng-if="submittedExploits.length == 0" class="well">
             No new exploit submissions.
         </div>
         <ul class="list-group">
-             <li class="list-group-item host-line"
+             <li class="list-group-item host-line exploit-line"
                  ng-click=""
-                 ng-repeat="exploit in userExploitSubmissions">{{host.name}}</li>
+                 ng-repeat="exploit in submittedExploits">
+                 <strong>{{exploit.bounty.type}} submission</strong> ({{exploit.description}})
+
+                 <button class="btn btn-default pull-right btn-sm pay-button"><i class="bf-paypal"></i> Pay & Close</button>
+                 <button class="btn btn-info pull-right btn-sm pay-button"><i class="fa fa-envelope-o"></i> Contact</button>
+                 <button class="btn btn-danger pull-right btn-sm pay-button"><i class="fa fa-ban"></i> Reject</button>
+
+                 <span class="pull-right"><i class="fa fa-dollar"></i> {{exploit.bounty.amount}}</span>
+             </li>
         </ul>
     </div>
 
     <div>
         <h2><i class="fa fa-globe"></i> Hosts</h2>
         <ul class="list-group">
-             <li class="list-group-item host-line" ng-repeat="host in userHosts">{{host.name}}</li>
+             <li class="list-group-item host-line" ng-repeat="host in hosts.all|filter:{user_id: user.id}" ng-click="goToHost(host.id)">
+                 <i class="fa fa-globe"></i> <strong>{{host.name}}</strong> ({{host.url}})
+             </li>
         </ul>
         <button class="btn btn-warning" data-toggle="modal" data-target="#newHostModal"><i class="fa fa-plus"></i> Add Host</button>
     </div>
@@ -38,4 +48,3 @@
 </div>
 
 <div ng-include="'/static/html/new-host-modal.html'"/>
-

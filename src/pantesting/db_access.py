@@ -20,6 +20,14 @@ def get_hosts_by_user(user_id):
     hosts = api.get_hosts(id=user_id)
     return jsonify({'hosts': [host.to_dict() for host in hosts]})
 
+@db_access.route('/get_submitted_exploits/<user_id>')
+def get_submitted_exploits(user_id):
+    bounties = sum([host.bounties for host in api.get_hosts(id=user_id)], [])
+    exploits = []
+    for bounty in bounties:
+        exploits += list(bounty.exploits)
+    return jsonify({'exploits': [exploit.to_dict() for exploit in exploits]})
+
 
 @db_access.route('/get_bounties/<host_id>')
 def get_bounties(host_id):
@@ -34,7 +42,7 @@ def new_host():
     for bounty in request_dict["bounties"]:
         host.add_bounty(type_=bounty["type"], amount=int(bounty["amount"]))
     api.commit()
-    return host
+    return ""
 
 
 

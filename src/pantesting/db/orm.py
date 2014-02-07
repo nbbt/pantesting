@@ -102,7 +102,7 @@ class Bounty(Base, Dictable):
         return exploit
 
 
-class Exploit(Base):
+class Exploit(Base, Dictable):
     __tablename__ = "exploits"
 
     #Statussesh
@@ -112,6 +112,7 @@ class Exploit(Base):
 
     id = Column(Integer, primary_key=True)
     bounty_id = Column(Integer, ForeignKey('bounties.id'))
+    bounty = relationship('Bounty', lazy='immediate', uselist=False)
     status = Column(String)
     description = Column(String)
     user_id = Column(Integer, ForeignKey('users.id'))

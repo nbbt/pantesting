@@ -1,9 +1,5 @@
 angular.module('pantestingApp').controller('PanTestingController',
-  function($scope, $rootScope, $http, Host) {
-      /*scope.hosts = [{name: 'My Host', time_left: '1 week', company: 'My company 1', hostId: 0},
-                        {name: 'PayPal.com', description: 'PayPal is awesome', 'url': 'http://paypal.com', user: "newt",
-                            time_left: '24 hours', company: 'PayPal', hostId: 1}];
-      */
+  function($scope, $rootScope, $http, $location, Host) {
       $scope.hosts = Host.query();
 
       $scope.refreshHosts = function() {
@@ -22,17 +18,17 @@ angular.module('pantestingApp').controller('PanTestingController',
             }
       }
       $scope.newHost = function(hostName, hostDescription, bounties, hostUrl) {
-          console.log('d' + hostUrl);
            $http.post('/new_host', JSON.stringify({"hostName": hostName, "description": hostDescription, "bounties": bounties,
                                                     "userId": $rootScope.currentUser.id, url: hostUrl}))
                 .success(function(data) {
-                   alert('New host created');
+                   toastr.success('New host created');
                    $scope.refreshHosts();
                });
       }
       $scope.removeHost = function(hostId) {
           $http.delete('/remove_host/' + hostId.toString()).success(function() {
               alert('Deleted');
+              $location.path('/');
           })
       }
 

@@ -5,13 +5,13 @@
                 <button class="pull-right btn btn-danger" data-toggle="modal" data-target="#confirmDeletionModal"><i class="fa fa-trash-o"></i> Remove</button>
                 <button class="pull-right btn btn-info" data-toggle="modal" data-target="#newBountyModal"><i class="fa fa-dollar"></i> Add Bounty</button>
             </span>
-            <button class="pull-right btn"><i class="fa fa-thumbs-o-up"></i> Like</button></h2>
-        <h4 id="host-description"><small>{{host.description}}</small></h4>
+            <button class="pull-right btn" ng-click="like()"><i class="fa fa-thumbs-o-up"></i> Like</button></h2>
+        <h4 class="host-url"><small><a href="{{host.url}}">{{host.url}}</a></small></h4>
     </div>
 
     <div>
         <p>
-            Bla bla bla
+            {{host.description}}
         </p>
         <div id="bounties" class="pull-right">
             <table class="table table-hover">
@@ -21,20 +21,10 @@
                     <th>Bounty</th>
                     <th>Completed</th>
                 </tr>
-                <tr>
-                    <td>Code Execution</td>
-                    <td>5,000,000$</td>
-                    <td><button class="btn btn-success" data-toggle="modal" data-target="#submissionModal"><i class="fa fa-bolt"></i> Submit</button></td>
-                </tr>
-                <tr>
-                    <td>XSS</td>
-                    <td>3.50$</td>
-                    <td><button class="btn btn-success"><i class="fa fa-bolt"></i> Submit</button></td>
-                </tr>
                 <tr ng-repeat="bounty in bounties">
                     <td>{{bounty.type}}</td>
                     <td>{{bounty.amount}}$</td>
-                    <td><button class="btn btn-success" ng-click="submittedBounty=bounty"><i class="fa fa-bolt"></i> Submit</button></td>
+                    <td><button class="btn btn-success" ng-click="$parent.submittedBounty=bounty" data-toggle="modal" data-target="#submissionModal"><i class="fa fa-bolt"></i> Submit</button></td>
                 </tr>
             </table>
         </div>
@@ -57,7 +47,7 @@
                 </tr>
                 <tr>
                     <th>Given Bounty</th>
-                    <td>{{submittedBounty.amount}}</td>
+                    <td>${{submittedBounty.amount}}</td>
                 </tr>
           </table>
           <form role="form">
@@ -69,7 +59,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submitExploit(submittedBounty.id)">Submit</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submitExploit(submittedBounty.id, description)">Submit</button>
       </div>
     </div>
   </div>

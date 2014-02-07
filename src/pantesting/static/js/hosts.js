@@ -22,6 +22,7 @@ angular.module('pantestingApp').controller('HostDetails',
   function($scope, $routeParams, $rootScope, $http) {
       $scope.host = $scope.getHost($routeParams.hostId);
       $scope.bounties = [];
+      $scope.submittedBounty = null;
 
       $scope.isUserHostOwner = function() {
           return $rootScope.currentUser && $scope.host.user.name == $rootScope.currentUser.name;
@@ -33,28 +34,39 @@ angular.module('pantestingApp').controller('HostDetails',
       }
       $scope.getBounties();
 
-      $scope.submitExploit = function(bountyId) {
+      toastr.options.positionClass = 'toast-bottom-left';
+      $scope.submitExploit = function(bountyId, description) {
           $http.post('/submit_exploit', {bountyId: bountyId,
-                                          userId: $rootScope.currentUser.id})
+                                          userId: $rootScope.currentUser.id,
+                                          description: description}).success(function() {
+                  toastr.success("Submitted");
+              })
       };
 
       $scope.addBounty = function(bountyType, bountyAmount) {
           $http.post('/add_bounty', {hostId: $scope.host.id,
                                       type: bountyType,
                                       amount: bountyAmount}).success(function() {
-                 alert('Bounty added');
+                 toastr.success('Bounty Added!');
                  $scope.getBounties();
+              }).error(function() {
+                  toastr.error('Something went wrong..')
               });
+      }
+
+      $scope.like = function() {
+          toastr.success('Liked!');
       }
   });
 
 angular.module('pantestingApp').controller('Profile',
-  function($scope, $routeParams, $http, $rootScope) {
+  function($scope, $routeParams, $http, $location, $rootScope) {
       $scope.user = $rootScope.currentUser;
       $scope.userHosts = [];
+      $scope.submittedExploits = [];
       $scope.approveExploit = function(exploitId) {
           $http.get('/approve_exploit/' + exploitId).success(function() {
-              alert('Exploit approved')
+              toastr.success('Exploit approved')
           })
       }
       $scope.getHostsByUser = function() {
@@ -62,5 +74,15 @@ angular.module('pantestingApp').controller('Profile',
                 $scope.userHosts = data.hosts;
           })
       }
+      $scope.getSubmittedExploits = function() {
+          $http.get('/get_submitted_exploits/' + $rootScope.currentUser.id).success(function(data) {
+              $scope.submittedExploits = data.exploits;
+          })
+      }
+      $scope.getSubmittedExploits();
       $scope.getHostsByUser();
+
+      $scope.goToHost = function(hostId) {
+          $location.path('/host/' + hostId);
+      };
   });
