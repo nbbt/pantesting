@@ -87,6 +87,7 @@ def reject_exploit(exploit_id):
     api.commit()
     return "rejected"
 
+
 @db_access.route('/example', methods=['GET', 'POST'])
 def example():
     return 'foo'
