@@ -1,6 +1,7 @@
 import json
 from flask import Blueprint, jsonify, request
 from pantesting.db.api import PanetesterApi
+from pantesting.db.orm import Exploit
 
 __author__ = 'newt'
 
@@ -74,9 +75,21 @@ def add_bounty():
     api.commit()
     return ""
 
+
 @db_access.route("/approve_exploit/<exploit_id>", methods=["PUT"])
-def approve_exploit():
-    pass
+def approve_exploit(exploit_id):
+    exploit = api.get_exploits(id=exploit_id)[0]
+    exploit.status = Exploit.CONFIRMED
+    api.commit()
+    return "approved"
+
+
+@db_access.route("/approve_exploit/<exploit_id>", methods=["PUT"])
+def reject_exploit(exploit_id):
+    exploit = api.get_exploits(id=exploit_id)[0]
+    exploit.status = Exploit.REJECTED
+    api.commit()
+    return "rejected"
 
 
 @db_access.route('/example', methods=['GET', 'POST'])

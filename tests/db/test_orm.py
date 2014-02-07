@@ -60,4 +60,12 @@ def test_add_host():
     assert host.url == host.url
 
 
+def test_add_user_with_email():
+    session = connect()
+    email = "matt@gmail.com"
+    user = User(name="Matt", email=email, password="123", company_name="PayPal", uid="123")
+    session.add(user)
+    session.commit()
+    user = session.query(User).first()
+    assert user.email == email
 

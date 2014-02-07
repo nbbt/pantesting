@@ -4,6 +4,9 @@ from pantesting.db.orm import User, Host, connect, Bounty
 __author__ = 'Anya'
 
 
+class Expoit(object):
+    pass
+
 
 class PanetesterApi(object):
     """
@@ -26,6 +29,9 @@ class PanetesterApi(object):
 
     def get_bounties(self, **kwargs):
         return self._session.query(Bounty).filter_by(**kwargs).all()
+
+    def get_exploits(self, **kwargs):
+        return self._session.query(Expoit).filter_by(**kwargs).all()
 
     def add_user(self, name, password, company_name):
         user = User(name=name, password=password, company_name=company_name)
