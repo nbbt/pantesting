@@ -1,11 +1,7 @@
 import os
-from pantesting.db.orm import User, Host, connect, Bounty
+from pantesting.db.orm import User, Host, connect, Bounty, Exploit
 
 __author__ = 'Anya'
-
-
-class Expoit(object):
-    pass
 
 
 class PanetesterApi(object):
@@ -31,7 +27,7 @@ class PanetesterApi(object):
         return self._session.query(Bounty).filter_by(**kwargs).all()
 
     def get_exploits(self, **kwargs):
-        return self._session.query(Expoit).filter_by(**kwargs).all()
+        return self._session.query(Exploit).filter_by(**kwargs).all()
 
     def add_user(self, name, password, company_name):
         user = User(name=name, password=password, company_name=company_name)

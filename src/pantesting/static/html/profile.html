@@ -18,8 +18,9 @@
              <li class="list-group-item host-line exploit-line"
                  ng-click=""
                  ng-repeat="exploit in submittedExploits">
-                 <strong>{{exploit.bounty.type}} submission</strong> ({{exploit.description}})
-
+                 <span>
+                 <strong>{{exploit.bounty.type}} submission</strong> ({{exploit.description}}) <span class="badge">{{exploit.status|uppercase}}</span>
+                </span>
                     <span class="actions-span">
                  <form name="_xclick" action="https://www.paypal.com/us/cgi-bin/webscr" method="post">
                     <input type="hidden" name="cmd" value="_xclick">
@@ -31,7 +32,7 @@
                     <input class="pay-now-button pull-right pay-button" type="image" src="https://www.paypalobjects.com/webstatic/en_US/btn/btn_paynow_86x21.png" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
                 </form>
                  <button class="btn btn-info pull-right btn-sm pay-button"><i class="fa fa-envelope-o"></i> Contact</button>
-                 <button class="btn btn-danger pull-right btn-sm pay-button"><i class="fa fa-ban"></i> Reject</button>
+                 <button class="btn btn-danger pull-right btn-sm pay-button" ng-click="rejectExploit(exploit.id)"><i class="fa fa-ban"></i> Reject</button>
 
                  <span class="amount-span pull-right"><i class="fa fa-dollar"></i> {{exploit.bounty.amount}}</span>
                   </span>

@@ -85,4 +85,10 @@ angular.module('pantestingApp').controller('Profile',
       $scope.goToHost = function(hostId) {
           $location.path('/host/' + hostId);
       };
+      $scope.rejectExploit = function(exploitId) {
+          $http.put('/reject_exploit/' + exploitId.toString()).success(function(){
+                toastr.info('Rejected');
+                $scope.getSubmittedExploits();
+          })
+      }
   });

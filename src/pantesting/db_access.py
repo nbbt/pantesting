@@ -23,14 +23,10 @@ def get_hosts_by_user(user_id):
 
 @db_access.route('/get_submitted_exploits/<user_id>')
 def get_submitted_exploits(user_id):
-    print user_id
-    print api.get_hosts(user_id=user_id)
-    print [h.user_id for h in api.get_hosts()]
     bounties = sum([host.bounties for host in api.get_hosts(user_id=user_id)], [])
     exploits = []
     for bounty in bounties:
         exploits += list(bounty.exploits)
-    print bounties, exploits
     return jsonify({'exploits': [exploit.to_dict() for exploit in exploits]})
 
 
@@ -84,7 +80,7 @@ def approve_exploit(exploit_id):
     return "approved"
 
 
-@db_access.route("/approve_exploit/<exploit_id>", methods=["PUT"])
+@db_access.route("/reject_exploit/<exploit_id>", methods=["PUT"])
 def reject_exploit(exploit_id):
     exploit = api.get_exploits(id=exploit_id)[0]
     exploit.status = Exploit.REJECTED
