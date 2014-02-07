@@ -67,8 +67,5 @@ def test_add_user_with_email():
     session.add(user)
     session.commit()
     user = session.query(User).first()
-    assert  user.email == email
-
-
-
+    assert user.email == email
 
