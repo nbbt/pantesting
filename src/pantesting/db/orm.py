@@ -41,6 +41,7 @@ class User(Base, Dictable, UserMixin):
     id = Column(Integer, primary_key=True)
     uid = Column(String)
     name = Column(String)
+    email = Column(String)
     password = Column(String)
     company_name = Column(String)
     hosts = relationship("Host", lazy="immediate")
