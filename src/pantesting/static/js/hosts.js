@@ -65,8 +65,8 @@ angular.module('pantestingApp').controller('Profile',
       $scope.userHosts = [];
       $scope.submittedExploits = [];
       $scope.approveExploit = function(exploitId) {
-          $http.get('/approve_exploit/' + exploitId).success(function() {
-              toastr.success('Exploit approved')
+          $http.put('/approve_exploit/' + exploitId).success(function() {
+              toastr.success('Exploit approved');
           })
       }
       $scope.getHostsByUser = function() {

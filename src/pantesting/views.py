@@ -1,6 +1,6 @@
 import hashlib
 import json
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, redirect
 from flask.ext.login import LoginManager, login_user, current_user, make_secure_token, logout_user
 
 from pantesting.db.orm import Host, User
@@ -31,7 +31,7 @@ def login():
 @app.route('/register', methods=["POST"])
 def register():
     api.add_user(request.form['username'], hashlib.md5(request.form['password']).hexdigest(), request.form['company_name'])
-    return 'OK'
+    return redirect('/')
 
 
 @app.route('/logout')

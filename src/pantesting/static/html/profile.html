@@ -20,11 +20,21 @@
                  ng-repeat="exploit in submittedExploits">
                  <strong>{{exploit.bounty.type}} submission</strong> ({{exploit.description}})
 
-                 <button class="btn btn-default pull-right btn-sm pay-button"><i class="bf-paypal"></i> Pay & Close</button>
+                    <span class="actions-span">
+                 <form name="_xclick" action="https://www.paypal.com/us/cgi-bin/webscr" method="post">
+                    <input type="hidden" name="cmd" value="_xclick">
+                    <input type="hidden" name="business" value="kimimarosan@gmail.com">
+                    <input type="hidden" name="currency_code" value="USD">
+                    <input type="hidden" name="item_name" value="PanTest payment">
+                    <input type="hidden" name="amount" value="{{exploit.bounty.amount}}">
+                    <!--<button class="btn btn-default pull-right btn-sm pay-button"><i class="bf-paypal"></i> Pay & Close</button>-->
+                    <input class="pay-now-button pull-right pay-button" type="image" src="https://www.paypalobjects.com/webstatic/en_US/btn/btn_paynow_86x21.png" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+                </form>
                  <button class="btn btn-info pull-right btn-sm pay-button"><i class="fa fa-envelope-o"></i> Contact</button>
                  <button class="btn btn-danger pull-right btn-sm pay-button"><i class="fa fa-ban"></i> Reject</button>
 
-                 <span class="pull-right"><i class="fa fa-dollar"></i> {{exploit.bounty.amount}}</span>
+                 <span class="amount-span pull-right"><i class="fa fa-dollar"></i> {{exploit.bounty.amount}}</span>
+                  </span>
              </li>
         </ul>
     </div>

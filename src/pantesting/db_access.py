@@ -22,10 +22,14 @@ def get_hosts_by_user(user_id):
 
 @db_access.route('/get_submitted_exploits/<user_id>')
 def get_submitted_exploits(user_id):
-    bounties = sum([host.bounties for host in api.get_hosts(id=user_id)], [])
+    print user_id
+    print api.get_hosts(user_id=user_id)
+    print [h.user_id for h in api.get_hosts()]
+    bounties = sum([host.bounties for host in api.get_hosts(user_id=user_id)], [])
     exploits = []
     for bounty in bounties:
         exploits += list(bounty.exploits)
+    print bounties, exploits
     return jsonify({'exploits': [exploit.to_dict() for exploit in exploits]})
 
 

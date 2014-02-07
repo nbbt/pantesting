@@ -19,11 +19,25 @@
     background-color: rgb(250, 250, 250);
 }
 
-button.pay-button {
+.pay-button {
     position: relative;
     top: -5px;
 }
 
 .exploit-line span {
     margin-right: 10px;
+}
+
+.actions-span {
+    position: relative;
+    top: -13px;
+}
+
+.amount-span {
+    top: 0px;
+    position: relative;
+}
+
+.pay-now-button {
+    top: -1px;
 }

@@ -27,7 +27,7 @@ angular.module('pantestingApp').controller('PanTestingController',
       }
       $scope.removeHost = function(hostId) {
           $http.delete('/remove_host/' + hostId.toString()).success(function() {
-              alert('Deleted');
+              toastr.success('Host deleted');
               $location.path('/');
           })
       }
@@ -39,7 +39,10 @@ angular.module('pantestingApp').controller('PanTestingController',
       $rootScope.authenticate = function(username, password) {
           $http.post('/login', {username: username, password: password}).success(function() {
                     $rootScope.getCurrentUser();
-          });
+                    toastr.success('Logged in');
+          }).error(function() {
+                  toastr.error('Access Denied');
+              });
       }
       $rootScope.getCurrentUser = function() {
           $http.get('/get_user').success(function(data) {
@@ -51,7 +54,9 @@ angular.module('pantestingApp').controller('PanTestingController',
       $rootScope.logout = function() {
           $http.get('/logout').success(function() {
                 $rootScope.currentUser = null;
-          });
+          }).success(function() {
+                  toastr.info('Logged out');
+              });
       }
       $rootScope.getCurrentUser();
   });

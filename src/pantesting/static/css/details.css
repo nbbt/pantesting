@@ -11,7 +11,7 @@
     padding-bottom: 10px;
 }
 
-.main-view button {
+.main-view button,input {
     margin-left: 6px;
 }
 
