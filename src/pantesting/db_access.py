@@ -58,6 +58,13 @@ def approve_exploit(exploit_id):
     return "approved"
 
 
+@db_access.route("/approve_exploit/<exploit_id>", methods=["PUT"])
+def reject_exploit(exploit_id):
+    exploit = api.get_exploits(id=exploit_id)[0]
+    exploit.status = Exploit.REJECTED
+    api.commit()
+    return "rejected"
+
 @db_access.route('/example', methods=['GET', 'POST'])
 def example():
     return 'foo'
