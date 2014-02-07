@@ -15,6 +15,17 @@ def get_hosts(host_id):
         hosts = api.get_hosts(id=host_id)
     return jsonify({'all': [host.to_dict() for host in hosts]})
 
+@db_access.route('/get_hosts_by_user/<user_id>')
+def get_hosts_by_user(user_id):
+    hosts = api.get_hosts(id=user_id)
+    return jsonify({'hosts': [host.to_dict() for host in hosts]})
+
+
+@db_access.route('/get_bounties/<host_id>')
+def get_bounties(host_id):
+    return jsonify({'bounties': [b.to_dict() for b in api.get_bounties(host_id=host_id)]})
+
+
 @db_access.route('/new_host', methods=['POST'])
 def new_host():
     request_dict = json.loads(request.data)
@@ -26,27 +37,30 @@ def new_host():
     return host
 
 
+
+
 @db_access.route("/remove_host/<host_id>", methods=["DELETE"])
 def remove_host(host_id):
     host = api.get_hosts(id=host_id)[0]
     api.remove(host)
     api.commit()
+    return ""
 
 @db_access.route("/submit_exploit", methods=["POST"])
 def add_exploit():
     request_dict = json.loads(request.data)
-    bounty = api.get_bounties(id=request_dict["bountyId"])
+    bounty = api.get_bounties(id=request_dict["bountyId"])[0]
     exploit = bounty.add_exploit(user_id=request_dict["userId"], description=request_dict["description"])
     api.commit()
-    return exploit
+    return ""
 
 @db_access.route("/add_bounty", methods=["POST"])
 def add_bounty():
     request_dict = json.loads(request.data)
-    host = api.get_hosts(id=request_dict["hostId"])
+    host = api.get_hosts(id=request_dict["hostId"])[0]
     bounty = host.add_bounty(type_=request_dict["type"], amount=request_dict["amount"])
     api.commit()
-    return bounty
+    return ""
 
 @db_access.route("/approve_exploit/<exploit_id>", methods=["PUT"])
 def approve_exploit():

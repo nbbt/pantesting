@@ -9,6 +9,8 @@ angular.module('pantestingApp').controller('PanTestingController',
       $scope.refreshHosts = function() {
           $scope.hosts = Host.query();
       }
+
+
       $scope.getHost = function(hostId) {
             if (hostId == null) {
                 return;

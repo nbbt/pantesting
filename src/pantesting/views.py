@@ -45,10 +45,6 @@ def get_current_user():
         return jsonify(current_user.to_dict())
     return ''
 
-@app.route('/get_bounties/<host_id>')
-def get_bounties(host_id):
-    return jsonify({'bounties': [b.to_dict() for b in api.get_bounties(host_id=host_id)]})
-
 @login_manager.user_loader
 def load_user(userid):
     # Should fetch from the DB

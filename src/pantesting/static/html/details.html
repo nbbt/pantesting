@@ -87,7 +87,7 @@
           <form role="form">
               <div class="form-group">
                   <label>Bounty Type</label>
-                  <select class="form-control" model="bounty-type">
+                  <select class="form-control" ng-model="bountyType">
                         <option>Code Execution</option>
                         <option>XSS</option>
                         <option>File Access</option>
@@ -96,13 +96,13 @@
               </div>
               <div class="form-group">
                     <label>Bounty amount</label>
-                    <input class="form-control" type="number" model="bounty-amount" placeholder="5.00"/>
+                    <input class="form-control" type="number" ng-model="bountyAmount" placeholder="5.00"/>
               </div>
           </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addBounty(bountyType, bountyAmount)">Submit</button>
       </div>
     </div>
   </div>
