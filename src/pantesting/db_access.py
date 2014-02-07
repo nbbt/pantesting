@@ -29,6 +29,9 @@ def get_submitted_exploits(user_id):
         exploits += list(bounty.exploits)
     return jsonify({'exploits': [exploit.to_dict() for exploit in exploits]})
 
+@db_access.route('/get_my_submissions/<user_id>')
+def get_my_submissions(user_id):
+    return jsonify({'exploits': [exploit.to_dict() for exploit in api.get_exploits(user_id=user_id)]})
 
 @db_access.route('/get_bounties/<host_id>')
 def get_bounties(host_id):

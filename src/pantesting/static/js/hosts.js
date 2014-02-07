@@ -64,6 +64,7 @@ angular.module('pantestingApp').controller('Profile',
       $scope.user = $rootScope.currentUser;
       $scope.userHosts = [];
       $scope.submittedExploits = [];
+      $scope.mySubmissions = [];
       $scope.approveExploit = function(exploitId) {
           $http.put('/approve_exploit/' + exploitId).success(function() {
               toastr.success('Exploit approved');
@@ -77,6 +78,9 @@ angular.module('pantestingApp').controller('Profile',
       $scope.getSubmittedExploits = function() {
           $http.get('/get_submitted_exploits/' + $rootScope.currentUser.id).success(function(data) {
               $scope.submittedExploits = data.exploits;
+          })
+          $http.get('/get_my_submissions/' + $rootScope.currentUser.id).success(function(data) {
+              $scope.mySubmissions = data.exploits;
           })
       }
       $scope.getSubmittedExploits();
