@@ -14,3 +14,16 @@
 .search-bar {
     margin-bottom: 6px;
 }
+
+.host-line:hover {
+    background-color: rgb(250, 250, 250);
+}
+
+button.pay-button {
+    position: relative;
+    top: -5px;
+}
+
+.exploit-line span {
+    margin-right: 10px;
+}

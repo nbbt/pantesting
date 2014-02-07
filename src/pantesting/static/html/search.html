@@ -8,10 +8,10 @@
             <th>Bounties</th>
             <th>Time Left</th>
         </tr>
-        <tr ng-click="openHost(host.id)" ng-repeat="host in hosts.all|filter:search">
+        <tr class="host-line" ng-click="openHost(host.id)" ng-repeat="host in hosts.all|filter:search">
             <td><a href="#/host/{{host.id}}"><i class="fa fa-globe"></i> {{host.name}}</a></td>
             <td>{{host.user.company_name}}</td>
-            <td></td>
+            <td ng-init="bountiesData = getBountiesTotal(host.id)">Total of ${{bountiesData.total}} from {{bountiesData.count}} bounties.</td>
             <td>{{host.time_left}}</td>
         </tr>
     </table>

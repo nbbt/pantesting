@@ -34,7 +34,7 @@ pantestingApp.config(['$routeProvider', function($routeProvider) {
     });
 });
 
-var phonecatServices = angular.module('pantestServices', ['ngResource']);
+var pantestingApp = angular.module('pantestServices', ['ngResource']);
 
 pantestingApp.factory('Host', ['$resource',
   function($resource){
